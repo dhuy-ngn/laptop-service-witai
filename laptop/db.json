@@ -1,0 +1,62 @@
+ [
+		{
+			"name": "Lenovo Legion 5 15 Gaming Laptop",
+			"price": "1300",
+			"cpu": "AMD Ryzen 7 5800H",
+			"ram": "16",
+			"memory": "512",
+			"gpu": "NVIDIA GeForce RTX 3050Ti",
+			"url": "https://www.amazon.com/Lenovo-Display-Processor-GeForce-82JW0012US/dp/B08YKG5K7F?ref_=Oct_onr_d_565108&pd_rd_w=6dbxc&pf_rd_p=f2b556d9-2905-446e-a142-cdce50e9497c&pf_rd_r=F6XW6QWCWYC4H8GFNJTA&pd_rd_r=0cf0fbec-6eb2-474b-aa5b-0fe45e315439&pd_rd_wg=rnzaF&pd_rd_i=B08YKG5K7F",
+			"available": "10"
+		},
+		{
+			"name": "Acer Nitro 5 AN515-55-53E5",
+			"price": "840",
+			"cpu": "Intel Core i5-10300H",
+			"ram": "8",
+			"memory": "256",
+			"gpu": "NVIDIA GeForce RTX 3050",
+			"url": "https://www.amazon.com/Acer-AN515-55-53E5-i5-10300H-GeForce-Keyboard/dp/B092YHJGMN?ref_=Oct_onr_d_565108&pd_rd_w=6dbxc&pf_rd_p=f2b556d9-2905-446e-a142-cdce50e9497c&pf_rd_r=F6XW6QWCWYC4H8GFNJTA&pd_rd_r=0cf0fbec-6eb2-474b-aa5b-0fe45e315439&pd_rd_wg=rnzaF&pd_rd_i=B092YHJGMN",
+			"available": "25"
+		},
+		{
+			"name": "HP Pavilion 15",
+			"price": "1132",
+			"cpu": "11th Gen Intel Core i7-1165G7",
+			"ram": "16",
+			"memory": "512",
+			"gpu": "Intel Iris Xe Graphics",
+			"url": "https://www.amazon.com/HP-i7-1165G7-Processor-Micro-Edge-15-eg0021nr/dp/B08KGYDR16?ref_=Oct_omg_d_565108&pd_rd_w=n3KyM&pf_rd_p=aba82a83-9bc0-4d9a-b9f0-441c9af18356&pf_rd_r=GQ7SNJ0ACHM5SEGFDV3J&pd_rd_r=4a300109-bbc5-4711-aacd-edd428a79874&pd_rd_wg=H69QK&pd_rd_i=B08KGYDR16",
+			"available": "1"
+		},
+		{
+			"name": "Acer Predator Helios 300",
+			"price": "1500",
+			"cpu": "Intel Core i7-10750H",
+			"ram": "16",
+			"memory": "512",
+			"gpu": "GeForce RTX 3060",
+			"url": "https://www.amazon.com/Acer-Predator-i7-10750H-Keyboard-PH315-53-71HN/dp/B08VKV5WQ1?ref_=Oct_omwf_d_565108&pd_rd_w=vEkm5&pf_rd_p=98f9896b-b0b5-418e-9dae-1ebddcb85d58&pf_rd_r=GQ7SNJ0ACHM5SEGFDV3J&pd_rd_r=4a300109-bbc5-4711-aacd-edd428a79874&pd_rd_wg=H69QK&pd_rd_i=B08VKV5WQ1",
+			"available": "5"
+		},
+		{
+			"name": "ASUS TUF Dash 15 (2021)",
+			"price": "1500",
+			"cpu": "Intel Core i7-11370H",
+			"ram": "8",
+			"memory": "512",
+			"gpu": "GeForce RTX 3050 Ti",
+			"url": "https://www.amazon.com/ASUS-GeForce-i7-11370H-Windows-TUF516PE-AB73/dp/B08XPC3WFQ/ref=zg_bsnr_565108_5?_encoding=UTF8&psc=1&refRID=8NEE4FQF7YJBE9XC5P6E",
+			"available": "2"
+		},
+		{
+			"name": "Lenovo IdeaPad 3 14 82KT00AMUS",
+			"price": "480",
+			"cpu": "AMD Ryzen 5 5500U",
+			"ram": "8",
+			"memory": "256",
+			"gpu": "AMD Radeon 7",
+			"url": "https://www.amazon.com/Lenovo-IdeaPad-Processor-Graphics-82KT00AMUS/dp/B08YKDYWK5/ref=zg_bsnr_565108_4?_encoding=UTF8&psc=1&refRID=8NEE4FQF7YJBE9XC5P6E",
+			"available": "0"
+		}
+	]
