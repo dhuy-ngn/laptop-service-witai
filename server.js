@@ -10,11 +10,8 @@ const laptop = require('./laptop');
 server.use(Restify.jsonp());
 
 // MongoDB config
-const express = require("express");
-const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
 const objectId = require("mongodb").ObjectID;
-const laptopPrice = require("mongodb").price;
 const CONNECTION_URL = "mongodb+srv://admin:admin@da1.1gkkk.mongodb.net/laptop_info.laptop?retryWrites=true&w=majority";
 const DATABASE_NAME = "laptop_info";
 var database, collection;
@@ -43,19 +40,21 @@ server.post('/',
 				message,
 				sender
 			} = msg;
+			console.log(msg);
 
 			if (message.text && message.nlp.entities) {
 				// If a text message is received, use f.txt or f.img to send text/image back.
 				f.txt(sender, `You just said ${message.text}`);
-				console.log("Intents: ", message.nlp.intents);
+				console.log("Intents: \n", message.nlp.intents);
 				console.log("Entities: \n", message.nlp.entities);
 
-				laptop(message.nlp.entities)
+				laptop(message.nlp)
 					.then(response => {
 						console.log(response);
 					})
 					.catch(err => {
 						console.log(err);
+						f.txt(sender, 'My servers are acting up. Do check back later...');
 					})
 			}
 		});

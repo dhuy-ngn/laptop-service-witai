@@ -5,14 +5,14 @@ const crypto = require('crypto');
 class FBeamer {
 	constructor(config) {
 		try {
-			if(!config || config.PAGE_ACCESS_TOKEN === undefined || config.VERIFY_TOKEN === undefined || config.APP_SECRET === undefined) {
+			if (!config || config.PAGE_ACCESS_TOKEN === undefined || config.VERIFY_TOKEN === undefined || config.APP_SECRET === undefined) {
 				throw new Error("Unable to access tokens!");
 			} else {
 				this.PAGE_ACCESS_TOKEN = config.PAGE_ACCESS_TOKEN;
 				this.VERIFY_TOKEN = config.VERIFY_TOKEN;
 				this.APP_SECRET = config.APP_SECRET;
 			}
-		} catch(e) {
+		} catch (e) {
 			console.log(e);
 		}
 	}
@@ -21,9 +21,13 @@ class FBeamer {
 		// If req.query.hub.mode is 'subscribe'
 		// and if req.query.hub.verify_token is the same as this.VERIFY_TOKEN
 		// then send back an HTTP status 200 and req.query.hub.challenge
-		let {mode, verify_token, challenge} = req.query.hub;
+		let {
+			mode,
+			verify_token,
+			challenge
+		} = req.query.hub;
 
-		if(mode === 'subscribe' && verify_token === this.VERIFY_TOKEN) {
+		if (mode === 'subscribe' && verify_token === this.VERIFY_TOKEN) {
 			return res.end(challenge);
 		} else {
 			console.log("Could not register webhook!");
@@ -32,36 +36,37 @@ class FBeamer {
 	}
 
 	verifySignature(req, res, next) {
-			let rawData = '';
-			
-			req.on('data', function(data) {
-				rawData += data;
-			});
-			
-			req.on('end', () => {
-				let hash = crypto.createHmac('sha1', this.APP_SECRET).update(rawData).digest('hex');
-				let signature = req.headers['x-hub-signature'];
-				if(hash !== signature.split("=")[1]) {
-					// Implement a logging and notification mechanism
-					console.error("ERROR: INVALID SIGNATURE");
-				}
-				
-			});
-			return next();
+		let rawData = '';
+
+		req.on('data', function(data) {
+			rawData += data;
+		});
+
+		req.on('end', () => {
+			let hash = crypto.createHmac('sha1', this.APP_SECRET).update(rawData).digest('hex');
+			let signature = req.headers['x-hub-signature'];
+			if (hash !== signature.split("=")[1]) {
+				// Implement a logging and notification mechanism
+				console.error("ERROR: INVALID SIGNATURE");
+			}
+
+		});
+		return next();
 	}
 
 	subscribe() {
 		request({
-			uri: 'https://graph.facebook.com/v2.8/me/subscribed_apps',
+			uri: 'https://graph.facebook.com/v11.0/me/subscribed_apps',
 			qs: {
-				access_token: this.PAGE_ACCESS_TOKEN
+				access_token: this.PAGE_ACCESS_TOKEN,
+				subscribed_fields: 'messages'
 			},
 			method: 'POST'
 		}, (error, response, body) => {
-			if(!error && JSON.parse(body).success) {
+			if (!error && JSON.parse(body).success) {
 				console.log("Subscribed to the page!");
 			} else {
-				console.log(error);
+				console.log(body.error);
 			}
 		});
 	}
@@ -69,7 +74,8 @@ class FBeamer {
 	incoming(req, res, cb) {
 		// Extract the body of the POST request
 		let data = req.body;
-		if(data.object === 'page') {
+
+		if (data.object === 'page') {
 			// Iterate through the page entry Array
 			data.entry.forEach(pageObj => {
 				// Iterate through the messaging Array
@@ -90,14 +96,14 @@ class FBeamer {
 		return new Promise((resolve, reject) => {
 			// Create an HTTP POST request
 			request({
-				uri: 'https://graph.facebook.com/v2.8/me/messages',
+				uri: 'https://graph.facebook.com/v2.6/me/messages',
 				qs: {
 					access_token: this.PAGE_ACCESS_TOKEN
 				},
 				method: 'POST',
 				json: payload
 			}, (error, response, body) => {
-				if(!error && response.statusCode === 200) {
+				if (!error && response.statusCode === 200) {
 					resolve({
 						messageId: body.message_id
 					});
