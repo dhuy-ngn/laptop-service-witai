@@ -44,13 +44,15 @@ server.post('/',
 
 			if (message.text && message.nlp.entities) {
 				// If a text message is received, use f.txt or f.img to send text/image back.
-				f.txt(sender, `You just said ${message.text}`);
-				console.log("Intents: \n", message.nlp.intents);
-				console.log("Entities: \n", message.nlp.entities);
+				console.log("NLP data: \n", message.nlp);
+				console.log("Entities: \n", message.nlp.entities)
 
 				laptop(message.nlp)
 					.then(response => {
-						console.log(response);
+						f.txt(sender, response.txt);
+						if (response.img) {
+							f.txt(response.img);
+						}
 					})
 					.catch(err => {
 						console.log(err);
@@ -58,6 +60,7 @@ server.post('/',
 					})
 			}
 		});
+		res.send(200);
 		return next();
 	});
 
@@ -78,21 +81,21 @@ server.listen(PORT, () => {
 
 // Get all laptop info
 server.use(Restify.plugins.queryParser());
-server.get("/laptop/", (request, response) => {
+server.get("/laptop", (request, response) => {
 	let query = request.query || {};
 	console.log("Query: ", request.query);
 
 	// querying
 	collection.find({
 		...query.name && { "name": { $regex: query.name, $options: "i" } },
-		...query.price && { "price": query.price },
+		...query.price && { "price": { $gt: parseInt(query.price[0]), $lt: parseInt(query.price[1]) } },
 		...query.cpu && { "cpu": { $regex: query.cpu, $options: "i" } },
 		...query.gpu && { "gpu": { $regex: query.gpu, $options: "i" } },
-		...query.ram && { "ram": query.ram.toString() },
-		...query.memory && { "memory": query.memory.toString() },
+		...query.ram && { "ram": parseInt(query.ram) },
+		...query.memory && { "memory": parseInt(query.memory) },
 	}).toArray((error, result) => {
 		if (error) {
-			return response.status(500).send(error);
+			return response.status(500);
 		}
 		response.send(result);
 	});
@@ -102,7 +105,7 @@ server.get("/laptop/", (request, response) => {
 server.get("/laptop/:id", (request, response) => {
 	collection.findOne({ "_id": new objectId(request.params.id) }, (error, result) => {
 		if (error) {
-			return response.status(500).send(error);
+			return response.status(500);
 		}
 		response.send(result);
 	});

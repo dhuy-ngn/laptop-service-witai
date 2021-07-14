@@ -150,6 +150,18 @@ class FBeamer {
 		this.sendMessage(obj)
 			.catch(error => console.log(error));
 	}
+
+	url(id, url, messaging_type = 'RESPONSE') {
+		let obj = {
+			messaging_type,
+			recipient: {
+				id
+			},
+			message: {
+				
+			}
+		}
+	}
 }
 
 module.exports = FBeamer;
