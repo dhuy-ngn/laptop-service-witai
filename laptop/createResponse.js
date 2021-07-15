@@ -50,7 +50,7 @@ module.exports = (intent, laptop) => {
 
         
         case "laptopPrice": {
-            let str = `If you are talking about ${laptop.name}, it costs $${laptop.ram}`;
+            let str = `If you are talking about ${laptop.name}, it costs $${laptop.price}`;
             return {
                 txt: str
             }

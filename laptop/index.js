@@ -1,6 +1,6 @@
 'use strict';
 
-const MAX_CONFIDENCE = 0.8;
+const MAX_CONFIDENCE = 0.75;
 const request = require('request');
 const createResponse = require('./createResponse');
 
