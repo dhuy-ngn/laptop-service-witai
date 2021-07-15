@@ -45,7 +45,8 @@ server.post('/',
 			if (message.text && message.nlp.entities) {
 				// If a text message is received, use f.txt or f.img to send text/image back.
 				console.log("NLP data: \n", message.nlp);
-				console.log("Entities: \n", message.nlp.entities)
+				console.log("Entities: \n", message.nlp.entities);
+				console.log("Traits: \n", message.nlp.traits)
 
 				laptop(message.nlp)
 					.then(response => {
