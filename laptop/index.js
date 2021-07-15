@@ -22,6 +22,19 @@ const extractEntity = (nlp, entityValue) => {
     }
 }
 
+const extractEntities = (nlp, entityValue) => {
+    let entities = nlp.entities[entityValue];
+    let entitiesValue = [];
+    entities.forEach(entity => {
+        if (entity && entity.confidence > MAX_CONFIDENCE) {
+            entitiesValue.push(entity.value);
+        } else {
+            return null;
+        }
+    })
+    return entitiesValue;
+}
+
 const extractPriceEntity = nlp => {
     let entity = nlp.entities['wit$amount_of_money:amount_of_money'] && nlp.entities['wit$amount_of_money:amount_of_money'][0];
     if (entity && entity.confidence > MAX_CONFIDENCE) {
@@ -57,13 +70,32 @@ const getLaptopData = (laptopQuery) => {
 
 }
 
+const getAllLaptopData = (laptopQuery) => {
+    let qs = laptopQuery;
+    console.log(qs);
+
+    return new Promise((resolve, reject) => {
+        request({
+            uri: 'http://localhost:3000/laptop',
+            qs,
+        }, (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+                let data = JSON.parse(body);
+                resolve(data);
+            } else {
+                reject(error);
+            }
+        })
+    })
+
+}
 
 
 module.exports = nlpData => {
     return new Promise(async (resolve, reject) => {
         let intent = extractIntent(nlpData);
 
-        if (intent) {
+        if (intent !== "laptopBuy") {
             let name = extractEntity(nlpData, 'name:name');
             let ram = extractEntity(nlpData, 'ram:ram');
             let memory = extractEntity(nlpData, 'memory:memory');
@@ -88,7 +120,33 @@ module.exports = nlpData => {
             } catch (error) {
                 reject(error);
             }
-        } else {
+        } else if (intent === "laptopBuy") {
+            let laptopNames = extractEntities(nlpData, 'name:name');
+            let laptopPrices = [];
+
+            for (var name in laptopNames) {
+                await getLaptopData({"name": name}).then(response => {
+                laptopPrices.push(response.price);
+                });
+            }
+
+            let laptopQuantites = extractEntities(nlpData, 'wit$number:number');
+            let laptopData = [];
+
+            if (laptopNames.length === laptopQuantites.length) {
+                laptopNames.forEach((name, i) => {
+                    var obj = {};
+                    obj.name = name;
+                    obj.price = laptopPrices[i];
+                    obj.quantity = laptopQuantites[i];
+                    laptopData.push(obj);
+                })
+            }
+            console.log("Laptop data: ", laptopData);
+            let response = createResponse(intent, laptopData);
+            resolve(response);
+        }
+        else {
             resolve({
                 txt: "I'm not sure what you meant. Can you rephrase it for me?"
             })

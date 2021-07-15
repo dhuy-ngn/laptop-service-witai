@@ -54,5 +54,18 @@ module.exports = (intent, laptop) => {
                 txt: str
             }
         }
+
+        case "laptopBuy" : {
+            let str = `If I'm correct, you are making an order, right? Your order is: `;
+            let sum = 0;
+            laptop.forEach(_laptop => {
+                sum += _laptop.quantity*_laptop.price;
+                str += `\n${_laptop.quantity} x ${_laptop.name} = ${_laptop.quantity} x ${_laptop.price} = ${_laptop.quantity*_laptop.price}`
+            });
+            str += `\nTotal price: ${sum}`;
+            return {
+                txt: str
+            };
+        }
     }
 }
